@@ -1,0 +1,27 @@
+lmap - local nmap
+
+# Abbreviations
+TCP -
+UDP -
+IDS - Intrusion detection system
+psutil - process utilities
+
+# Preface
+It is a common job of system administrators to perform port scans of their systems.
+Such scans help the administrators to find vulnerabilities in the system earlier than a possible attacker.
+To perform such scans administrators use tools like nmap, nessus, accunetix which scan all possible ports from the
+outside and report the open ports and found vulnerabilities to the administrator. However, this has a few downsides:
+
+Scanning every TCP and UDP often requires a lot of time and network resources and can in certain cases disrupt the
+network flow, or even trigger a false alarm in IDS.
+
+In this document, we present an alternative way of evaluating server vulnerabilities which scans the system for
+vulnerabilities from the inside, as opposed to the outside.
+
+This program leaves a lot of thinking to the user,
+
+
+The project requires:
+
+Python 3.5.1
+psutil library
