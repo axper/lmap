@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import psutil
 from socket import SOCK_STREAM
 from socket import SOCK_DGRAM
