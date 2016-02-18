@@ -9,19 +9,30 @@ psutil - process utilities
 
 # Preface
 
-## Current approach
+## Current approach of system vulnerability detection
 It is a common job of system administrators to perform port scans of their systems.
 Such scans help the administrators to find vulnerabilities in the system earlier than a possible attacker.
-To perform such scans administrators use tools like nmap, nessus, accunetix which scan all possible ports from the
-outside and report the open ports and found vulnerabilities to the administrator. However, this has a few downsides:
+To perform such scans administrators use tools like nmap, nessus, accunetix etc. Network port scanning process looks
+like this:
 
-- Scanning every TCP and UDP often requires a lot of time
+1. The administrator determines the address and port range(s) for scanning
+2. He points the port scanning program to these ranges and starts the scan
+3. The program probes every possible IP address and port combination
+4. If a port is detected to be open, a special script is run which tries to guess details about that service
+(name, version, configuration, available usernames etc)
+5. Results are reported to the administrator in chosen format (xml or console output for nmap)
+
+However, this approach has a few downsides:
+
+- Scanning every TCP and UDP port requires a lot of time
 - It consumes network resources and might make some systems unavailable during the scan process
-- in certain scanning might even trigger a false alarm in IDS.
+- In certain scenarios port scanning might trigger a false alarm in IDS
+- False positives and incorrect service detections are possible
+- If the service is using an unusual port, it might not be discovered during the scan
 
 ## An alternative
 In this document, we present an alternative way of evaluating server vulnerabilities which scans the system for
-vulnerabilities from the inside, as opposed to the outside.
+vulnerabilities from the inside
 
 This program is partially inspired by Microsoft Baseline Security Analyzer
 
@@ -79,7 +90,7 @@ The SSH server config file is located at:
 
 - /etc/ssh/sshd_config
 
-1. Most dangerous misconfiguration is enabling SSH v1 protocol. This misconfiguration was exploited in the wild by the
+1. Most dangerous misconfiguration is enabling SSH v1 protocol. It's vulnerability was exploited in the wild by the
 WOOT project [7].
 2. Checks whether SSH password login is enabled. If it is, a weak warning is issued [11]:
 
