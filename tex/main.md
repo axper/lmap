@@ -38,13 +38,13 @@ psutil - python system and process utilities
 Preface
 =======
 
-Why security matters
---------------------
+Why information security matters
+--------------------------------
 
 ### What is information security?
 
 [20]
-Information security is the process of preventing and detecting the unauthorized use of a computer. 
+Information security is the process of preventing and detecting the unauthorized access to information resources. [23]
 
 Prevention is the process of stopping unauthorized malicious people (also known as "attackers", "intruders", "hackers") of accessing
 a part of the software or data they are not authorized to access.
@@ -75,7 +75,6 @@ An attacker has several reasons to break into a server:
 * DDoS - To carry out distributed denial of service (DDoS) attacks on other servers
 * SEO - A hacked website might be used to increase SEO of other sites by placing links to that site on the hacked website
 * Base for further attacks - A hacked server might be used for broader attacks, having more servers helps them cover their true identity
-
 * Fun - An attacker might do it for fun or amusement
 
 Aspects of server security
@@ -357,3 +356,6 @@ Sources
 [20]http://cybercellmumbai.gov.in/html/general-tips/what_is_computer_security.html
 [21]http://www.acunetix.com/websitesecurity/webserver-security/
 [22]https://www.onehoursitefix.com/why-would-hackers-hack-my-website/
+[23]http://searchsecurity.techtarget.com/definition/information-security-infosec
+
+TODO: iso 27001
