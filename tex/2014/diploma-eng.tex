@@ -1,0 +1,805 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{url}
+\usepackage{listings}
+\author{Babken Vardanyan}
+\title{Software protection against reverse engineering}
+\date{}
+
+\begin{document}
+%\maketitle
+
+I would like to express deepest gratitude to my guide Robert Hakobyan
+(SEUA) who has encouraged and supported me during the project work.
+
+\hfill \hfill Babken Vardanyan
+
+\newpage
+
+\tableofcontents
+\newpage
+
+\section{Introduction}
+Use of software applications has become one of the cornerstones of our lives.
+With the spreading use of networks, there has been remarkable progress in the
+flow configuration of programs and digital content.
+
+Applications can be quite expensive and thus illegal use of software emerged.
+Accompanying this, there is an increasing demand for techniques which can
+prevent internal analysis and tampering with programs by end users.
+
+Most of the software today is commercial and needs protection against threats
+such as reverse engineering, tampering and piracy. Protection against
+malicious users is a hard problem, since the user is in absolute control of
+his machine. Nevertheless, software owners manage to arm themselves against
+these threats.
+
+From the perspective of a software company, it is highly desirable that the
+company's products are difficult to pirate and reverse engineer. Making
+software difficult to reverse engineer seems to be in conflict with the idea
+of being able to recover the software's design later on for maintenance and
+evolution. Therefore, software manufacturers usually don't apply anti-reverse
+engineering transformations to software binaries until it is packaged for
+shipment to customers. Software manufacturers will typically only invest time
+in making software difficult to reverse engineer if there are particularly
+interesting algorithms that make the product stand out from the competition.
+Making software difficult to pirate or reverse engineer is often a moving
+target and requires special skills and understanding on the part of the
+developer. Software developers who are given the opportunity to practice
+anti-reversing techniques might be in a better position to help their
+employer, or themselves, protect their intellectual property. As they say,
+"to defeat a crook you have to think like one." By reverse engineering
+viruses or other malicious software, programmers can learn their inner
+workings and witness first-hand how vulnerabilities find their way into
+computer programs.
+
+This thesis examines code obfuscation techniques to protect software against
+analysis and unwanted modifications. Program obfuscation makes code harder
+to analyze. Indirectly, this also contributes to protecting against malicious
+modifications to a program. This stems from the fact that an attacker first
+must understand the software before he can make specified modifications. In
+addition to techniques that improve a program’s analysis resistance, one can
+add techniques that make tampering hard.
+
+\subsection{Machine code}
+Machine code or machine language is a system of instructions and data directly
+understandable by a computer's central processing unit.
+The executable representation of software, otherwise known as machine code,
+is typically the result of translating a program written in a high-level
+language, using a compiler, to an object file, a file which contains
+platform-specific machine instructions. The object file is made executable
+using linker, a tool which resolves the external dependencies that the object
+file has, such as operating system libraries. In contrast to high-level
+languages, there are low-level languages which are still considered to be
+high-level by a computer's CPU because the language syntax is still a textual
+or mnemonic abstraction of the processor's instruction set. For example,
+assembly language, a language that uses helpful mnemonics to represent
+machine instructions, still must be translated to an object file and made
+executable by a linker.
+
+However the translation from assembly code to machine
+code is done by an assembler instead of a compiler-reflecting the closeness
+of the assembly language's syntax to actual machine code. The reason why
+compilers translate programs coded in high-level and low-level languages to
+machine code is three-fold: CPUs only understand machine instructions, having
+a CPU dynamically translate higher-level language statements to machine
+instructions would consume significant, additional CPU time, and a CPU
+that could dynamically translate multiple high-level languages to machine
+code would be extremely complex, expensive, and cumbersome to
+maintain-imagine having to update the firmware in your microprocessor every
+time a bug is fixed or a feature is added to the C++ language! 
+
+\section{Summary}
+Advances in technology have led to the use of simple to use automated
+debugging tools which can be extremely helpful in troubleshooting problems in
+code. However, a malicious attacker can use these same tools. Securely
+designing software and keeping it secure has become extremely difficult. 
+These same easy to use debuggers can be used to bypass security built into
+software. While the detection of an altered executable file is possible, it
+is not as easy to prevent alteration in the first place. One way to make
+alteration more difficult is to make analysis more difficult for the attacker.
+
+First, we present a comprehensive overview of software protection techniques.
+These are compared in terms of protection against analysis and protection
+against modifications. In both cases a distinction is made between protection
+against static attacks and protect against dynamic attacks.
+
+This thesis presents an obfuscation method in which the program analysis by a
+malicious user (attacker) is made difficult by shuffling section names
+contained in PE header. In the proposed method, the section names are shuffled
+in order to confuse the attacker.
+
+Even if the attacker completely understands this method, it would still require
+some time for him to understand the role of each section, since the order in
+which section names are assigned is chosen randomly every time.
+
+In order to make the analysis a success, the attacker must look at the
+characteristics of each section and analyse their contents in order to
+understand their purpose, which requires additional time from the attacker.
+
+The proposed method can easily be automated, and requires no additional input
+or configuration from software authors. This method does not have any of the
+negative effects listed in section 4.4.
+
+\section{Reverse engineering}
+
+There are three major threats to software: reverse engineering, tampering, and
+piracy.
+
+\begin{itemize}
+\item Software Reverse Engineering is the practice of analyzing a software 
+    system, either in whole or in part, to extract design and implementation
+    information in case of absense of source code. It represents techniques to
+    inspect the inner workings of software applications.
+\item Tampering covers ways to tamper with software. It is the practice of
+    modifying parts of software in order to fit attacker's needs.
+\item Piracy concerns unauthorized use of software.
+\end{itemize}
+
+The reasons for reverse engineering are:
+\begin{enumerate}
+\item Making illegal copies of software by bypassing validity checks
+\item Studying viruses and other malware for security purposes
+\item Competitive intelligence against companies working in the same field
+    by extracting algorithms
+\item Maintanance and creation of documentation for legacy software
+\item Verification that implementation matches design 
+\end{enumerate}
+
+Reverse engineering consists of 2 steps: Analysis and Tampering.
+
+\subsection{Analysis of the target}
+During analysis, the attacker makes an attempt to discover algorithms, secret keys and other important information which can help him during the attack.
+
+Typically, such an action is assumed to involve the following steps. First the
+attacker disassembles the program and tries to understand the resulting
+assembly program. However, a tremendous amount of labor and time is required
+to understand the entirety of a large-scale program, which is not realistic.
+Consequently, the attacker restricts the range to be considered (the range
+which seems to be related to the secret information), and tries to understand
+only that range. The restriction and understanding of the range is repeated
+until the desired secret information is acquired.
+
+The analysis can be static or dynamic.
+
+\subsubsection{Static analysis}
+Static analysis is done against non-executing code. In this case the attacker
+use tools called Disassemblers, which translate the machine code present in the
+file to human readable assembly language. This method is called "linear sweep".
+An example of this method is a tool called objdump from GNU binutils.
+
+The problem with this method is that it can be easily confused by using simple
+anti-debugging methods like "junk byte insertion", which make the disassembler
+go "off track" as it doesn't take into account the control flow of the program.
+
+\subsubsection{Dynamic analysis}
+During dynamic analysis they use tools called Debuggers. Most popular debuggers
+are IDA Pro and OllyDBG. A technique called "recursive traversal" is used
+during dynamic analysis, which takes control flow into account. However, as
+some branches are input-dependent, usually not all target addresses can be
+statically derived and disassembled. Debuggers analyse the control flow of the
+code of the target and also allow the attacker to dynamically view and modify
+the memory and CPU registers of the program while executing. 
+
+This method is much slower than Static analysis as the debugger must "sweep"
+every possible execution path. This method can also be confused by many    
+anti-debugging techniques, and doesn't guarantee correct results.
+
+\subsection{Tampering}
+Typically,
+one first needs information on the program internals before one can successfully
+tamper with the software. Therefore, tampering attacks are most often preceded
+by several reverse-engineering techniques. And once sufficient analysis has been
+performed, the attacker will try to change the software to meet his own needs.
+A hacker can make software available for everyone, even without authentication
+or rights to use the software. Similar to analysis, tampering can also be done
+statically or dynamically, this means on static or on executing code.
+
+\subsubsection{Static tampering}
+Static tampering techniques modify a static binary image.
+An automated attack consisting of downloading a crack and applying it on a
+stored binary is usually a static tampering attack, assuming that code is not
+loaded in memory and modified there.
+
+\subsubsection{Dynamic tampering}
+Dynamic tampering techniques modify an application
+at run-time. First, debuggers load code in memory. When stepping through
+instructions, one can modify code, data, or the state (e.g. register values) of
+the loaded program. A dynamic tampering attack is often performed “by hand”
+and has similarities to software debugging.
+
+\section{Protection techniques}
+The need for software protection originates in multiple fields. Data security
+covers the confidentiality and integrity of data, typically during transmission
+and storage. Software security is the study of protecting software against
+analysis, tampering, and other means of exploitation. We will focus only on
+software security.
+
+We follow the view where applications consist of functional code (performing
+the actual program task), extended with other code (e.g. security code,
+error-handling code, etc.). Often one or more components are critical to the
+"normal" execution of the program, i.e. correct and legitimate execution of
+the code. Software protection techniques serve as a binding to glue these
+critical components with the rest of the code into one monolithic application,
+whereas without software protection these types of code would have been easy to
+identify, isolate, and attack.
+
+There are different protection methods, but none of them guarantees 100\%
+protection, but infact these only increase the attack time.
+
+Software can be protected in several principles:
+
+\begin{enumerate}
+\item Watermarking
+\item Software as service
+\item Obfuscation
+\end{enumerate}
+
+We will focus only on Obfuscation.
+
+\subsection{Obfuscation}
+Obfuscation is a set of program transformations
+that make program code and/or program execution difficult to analyze.
+Obfuscation is the most popular protection method. It is designed to confuse
+the attacker, make the work of debuggers more difficult and makes assembly
+code less understandable by covering the program's actions while keeping the
+algorithms intact.
+
+The definition of Obfuscation is: let's pretend that P software code becomes
+P' after some changes. That $P -> P'$ modification is called
+obfuscating modification if P and P' behave identically.
+
+\subsection{Protection against static attacks}
+\subsubsection{Polymorphism}
+    Polymorphic code is code that mutates while keeping the original algorithm
+    intact. This technique is sometimes used by computer viruses, shellcodes
+    and computer worms to hide their presnece. Most anti-virus software and
+    intrusion detection systems attempt to locate malicious code by searching
+    through the computer files and data packets sent over a computer neetwork.
+    If the security software finds patterns that correspond to known computer
+    viruses or worms, it takes appropriate steps to neutralize the threat.
+    Polymorphic algorithms make it difficult for such software to locate the
+    offending code as it constantly mutates.
+
+\subsubsection{Self-modifying code}
+    Self-modifying code is code that modifies itself on purpose.
+    Self-modifying code was used in the early days of computers in order to
+    save memory space, which was limited. It was  used to implement subroutine
+    calls and returns when the instruction set only provided simple branching
+    or skipping instructions to vary the flow of control.
+
+    Nowadays, self-modifyingn code is used by programs that do not want to
+    reveal their presence, such as computer viruses and some shellcodes.
+    Shellcode is a relocatable piece of machine code used as the payload in
+    the exploitation of a software bug which allows an unauthorised user to
+    communicate with the computer via the operating system's command line
+    as a result of exploiting a vulnerability in software running on the
+    machine.
+
+    Viruses and shellcodes that use self-modifying code, also mostly do this
+    in combination with polymorphic code. Polymorphic viruses are sometimes
+    called primitive self-mutators. Modifying a piece of running code is
+    also used in certain attacks, such as buffer overflows.
+
+\subsubsection{Encryption}
+    This is one of the simplest ways is encryption of data. When data is openly
+    stored in data section, it can give some clues to the attacker about the
+    actions performed in the program.
+
+    Encryption is the process of obscuring information to make it unaccessable
+    without special knowledge. Encryption can be used to ensure secrecy, but
+    other techniques are still needed to verify the integrity and authencity.
+    Encryption or software code obfuscation is used in software copy protection
+    against reverse engineering, unauthorized application analysis and software
+    piracy. It is used in different encryption or obfuscating software.
+
+    Encryption is most commonly used method of achieving polymorphism in code.
+    However, not all of the code can be encrypted as it would be completely
+    unusable. A small portion of it is left unencrypted and used to jumpstart
+    the encrypted software. Anti-virus software targets this small
+    unencrypted portion of code. Malicious programmers have sought to protect
+    their polymorphic code from this strategy by rewriting the unencrypted
+    decryption engine each time the virus or worm is propagated. Sophisticated
+    pattern analysis is used by anti-virus software to find underlying
+    patterns within the different mutations of the decryption engine in hopes
+    of reliably detecting such malware.
+
+\subsubsection{Metamorphism}
+    Metamorphic code is code that can reprogram itself. Often it does this by
+    translating its own code into a temporary representation, and then back
+    to normal code again. This is used by some viruses when they are about to
+    infect new files, and the result is that their children will never look
+    like themselves. The computer viruses that use this techineque do this in
+    order to avoid the pattern recognition of anti-virus software - the actual
+    algorithm does not change, but everything else might.
+
+    Metamorphic code is more effecient than polymorphic code. This is because
+    most anti-virus software willl try to search for known virus-code even
+    during the execution of the code.
+
+    Metamorphic code can also mean that a virus is capable of infecting
+    execuables from 2 or more different operating systems (such as Windows and
+    Linux) or even different computer architectures. Often, the virus does
+    this by carrying several viruses itself, so it is really a matter of
+    several viruses that have been joined together into a "supervirus".
+
+\subsubsection{Packers}
+    These programs are more often used to compress
+    executable files, but can also increase difficulty for the less skilled
+    attackers. Most popular packer currently is UPX.
+
+    Executable packing is the process of compressing an executable file and
+    prepending a decompression stub, which is responsible for decompressing
+    the executable and initiating it's execution. The decompression stub is a
+    standalone executable, making packed and unpacked executables
+    indistinguishable to the casual user as they are not required to perform
+    any additional steps to start execution.
+    
+    Executable compression is any means of compressing an executable file and
+    combining the compressed data with the decompression code it needs into a
+    single executable. When executed, this will unpack the original executable
+    code and transfer control to it. The effect is the same as if the original
+    uncompressed executable had been run. A compressed executable requires:
+    \begin{itemize}
+    \item Less storage space in the file system
+    \item Less time to transfer data from the file system into memory
+    \item More time to decompress the data before execution begins than the
+        uncompressed original
+    \end{itemize}
+
+\subsubsection{Junk byte insertion}
+    One of the simplest methods, it makes static disassembly more
+    difficult as disassemblers have no way to differentiate between junk
+    byte and a CPU instruction. This is easily done with inline assembly
+    blocks. This method does nothing against recursive debuggers, which
+    do look at execution path of the program.
+
+\subsection{Protection against dynamic attacks}
+
+\subsubsection{Protectors}
+An executable protector is in fact a derive of the simple packer, meaning
+that protector emphasises more or even completely on protection against
+reverse engineering than the simple packer.
+
+This however brigns some important disadvantages to the distributed
+program: first of all the size. Where packers aim to reduce the packed
+executable's size as much as possible, the protector often adds so much
+code trying to protect against reverse engineering, that the size of the
+total can considerably increase. There are examples where the size
+increased to about 600\% where the simple packer reduced the size to about
+30\% of the original.
+
+\subsubsection{Code execution path obfuscation}
+This method includes:
+\begin{itemize}
+\item high level obfuscation
+\item randomization of instruction order
+\item inserting new code blocks, which do not affect execution of the
+    program
+\item using inline functions instead of actual function calls
+\item inserting duplicate functions, which perform same operations in
+    different algorithms
+\item duplicating loop body
+\item Branching functions\\
+    Instead of jumps, a function is called, which performs a jump but never
+    returns back, unlike a regular jump.
+\end{itemize}
+
+\subsubsection{Checking for Debuggers present in the system}
+If the program detects a debugger process running in the system or on the
+hard drive, it can perform appropriate actions to confuse the attacker.
+Presense of debuggers can be checked by monitoring CPU's debug registers
+or detecting changes in code segment (int 3 instruction insertino).
+
+Another example of this method is the IsDebuggerPresent() function of Win32
+API. It determines whether the calling process is being debugged by a
+user-mode debugger.
+
+\subsubsection{Hiding parts of the program}
+Some software authors decide to hide some of their code, for example in
+external devices (hardware assisted solutions) or web servers.
+
+\subsubsection{Dynamic self-modifying code}
+During this method modifications are done in code segment while executing
+that code. This is often used in viruses.
+
+\subsubsection{Parallelization}
+In linear programs it is easy to guess the execution path. When using this
+method, program is divided into several parts which do not depend on each
+other. Then these parts are executed separately in different threads or
+processes. This exponentially increases possible execution paths and time
+needed to analyse the code.
+
+\subsubsection{Virtualization}
+Virtualizing program execution in a virtual machine
+
+\subsection{Negative effects}
+When selecting a protection method, the author of the software must keep
+in mind that most of these methods have negative effects on your software:
+\begin{enumerate}
+\item Demand additional resources (time, financial) for software maintenance
+\item Make debugging more difficult
+\item Make program slower
+\item Increase executable file size
+\item Make the program harder to read and understand
+\item The less of your project cost is being invested in adding value for the
+    customer
+\item The more expensive your product becomes, driving away legitimate
+    customers
+\item The longer your time to market, allowing a less conservative competitor
+    to execute faster
+\end{enumerate}
+
+These methods are ususally used in combination, but in that case their
+negative effects are added together. That's why it's important to keep in
+mind these effects when using protection.
+
+\subsection{Evaluating protection}
+We need ways to evaluate effectivness of protection methods described
+above. The following numbers are used for that:
+\begin{enumerate}
+\item Potency\\
+    Shows how complicated it is for a skilled attacker to understand the code.
+    It is assumed that the more complicated the program is, the higher is the
+    protection.
+\item Flexibility\\
+    Shows how well the program resists automated attacks.
+\item The price of protection\\
+    Shows how much the execution time and file size increase when using a
+    protection method.
+\item Stealth\\
+    Shows how well some data or a part of the code can be protected from a
+    skilled attacker.
+\end{enumerate}
+
+\section{PE file structure}
+Portable Executable (PE) is a file format for executables, object code and
+DLLs. It was designed by Microsoft in early 90s. It consists of a header
+followed by data structures (sections). PE files are not loaded into memory as
+they appear on disk, instead being loaded according to the information in
+the PE file header. Unlike MS-DOS, segment registers are not used to relocate
+code and data, with ‘sections’ instead being used to hold program code,
+variable, constant and resource data. Where possible, the PE file format
+stores these sections in a packed state, holding information as to how much
+memory will be required as opposed to the actual data itself. Also unlike
+MS-DOS, Windows assigns a 4GB address space to each newly loaded program.
+
+In reverse engineering and software protection, it is important to understand
+the PE file structure. It is even more imoprtant when dealing with
+packers/unpackers and when adding code to executable (keygens, other
+functionality etc).
+
+\subsection{Header}
+The header is 0x1000 bytes long and consists of:
+
+\subsubsection{DOS header and stub}
+DOS header and DOS stub are ignored by Windows loader, except:
+
+\begin{itemize}
+\item the first 2 bytes are the EXE signature. They must be "MZ" in order
+    the file to be registered as valid .exe
+\item the last part of DOS header, the dword at 0x3C. It is the offset to
+    PE header, relative to the file beginning. It is a pointer to PE file
+    header, just past the DOS stub
+\end{itemize}
+
+The code in stub is executed only if the executable is ran under DOS or from
+command line. In that case, it usually prints a message like "This program
+cannot be run in DOS mode." and exits.
+
+DOS header is 0x40 bytes long, and the size of DOS stub depends on the offset
+to PE header.
+
+\subsubsection{PE header}
+PE header begins with 4-byte signatue - it must be
+"\texttt{PE\textbackslash0\textbackslash0}" in order the file to be registered
+as a valid .exe.
+
+The signature is followed by File Header which contains information about the
+physical structure and properties of the file. It is 20 bytes long and
+consists of:
+
+\begin{itemize}
+\item Target machine architecture
+\item Number of sections
+\item Date \& time stamp
+\item Pointer to symbol table (0 for image)
+\item Number of symbols (0 for image)
+\item Size of optional headers
+\item Characteristics
+\end{itemize}
+
+\subsubsection{Optional header}
+Next comes the Optional Header which contains info about the logical layout
+inside the PE file. This section is 224 bytes long, the last 128 of which
+is the Data Directory. This section is always required to be present in every
+.exe file, despite the name.
+
+Optional header contains information such as:
+
+\begin{itemize}
+\item Versions of linker, OS, image, subsystem
+\item Image base address
+\item Base address and size of code and data
+\item Entry point address
+\item Size of stack, image and headers
+\item Section alignment in file and memory
+\item File checksum
+\item Flags and characteristics etc
+\end{itemize}
+
+\subsubsection{Data directories}
+Technically a part of Optional header, this structure is an array of 16
+IMAGE\_DATA\_DIRECTORY structures. Each structure is 8 bytes each and
+contains info about a predefined item, such as import table. Each structure
+consits of 2 dwords, which contain the relative virtual address (RVA) and
+size of the data structure in question.
+
+Directories contain data like import and export tables, resources, exception
+handling info, debug, copyright sections etc.
+
+\subsubsection{Section table}
+Section table is an array of IMAGE\_SECTION\_HEADER structures, each containing
+information about one section in the PE file, such as:
+\begin{itemize}
+\item Section name, 8 bytes long
+\item Location and size of the section on disk
+\item Virtual address at which the section should be loaded
+\item Characteristics
+\item Relocation and line number info
+\end{itemize}
+
+Section names are irrelevant, but for programmers'
+convenience they are usually called
+
+\begin{itemize}
+\item .text - Executable code
+\item .data - Readable and writeable data
+\item .bss - Uninitialized data
+\item .rdata - Read only data
+\item .edata, .idata - Export and Import data sectioins
+\item .rsrc - Windows resources (icons, images, text strings etc)
+\item .src, .debug - Debug information
+\item .reloc - Base relocations; contains info about where the linker
+    assumed the sections will be loaded, so the addresses can be fixed.
+\end{itemize}
+
+\subsection{Sections}
+The header is followed by sections which contain actual code, data, resources
+etc.
+
+In the file on disk, each section starts at an offset that is multiple of
+FileAlignment value of Optional Header. Between each section there's 00 byte
+padding. When loaded into memory, the sections always start on a page boundry
+so that the first byte of each section corresponds to a memory page. On x86
+CPUs SectionAlignment is 4kB.
+
+These data structures of PE files on disk are the same data structures when
+they are loaded into memory. When executed, Win32 loader simply maps those
+data structures into memory.
+
+Each thread sees memory as a 4GB array of bytes. In practice only some portions
+of this array are visible and accessible by our program.
+
+\subsection{Windows Loader}
+When a PE-format file is to be executed, the file handle is passed to the
+CreateProcess() API function and statically imported DLL files are loaded
+(EXE and DLL files are both in PE format and are identical apart from a
+single-bit flag). This initialization is performed by the OS component called
+the loader, detailed in this section. The loader reads the PE file header and
+copies it to the 32-bit ImageBase address taken from the header; if this 
+address is in use the loader determines an alternative address. It then reads
+each section and copies each one to memory. Two distinct alignments may be
+specified: file alignment and section alignment. If these alignments are
+different, the loader copies each section to memory according to the section
+alignment, which in most cases results in the memory layout being different
+from that of the PE file. If the loader uses a different ImageBase address
+from that specified in the header - as is often the case with .dll files -
+address relocation must be performed. Relative jumps and calls do not need to
+be changed, but all absolute addresses (calculated during the linking stage
+of program compilation) must be adjusted by taking the difference between
+the preferred ImageBase and the chosen ImageBase and altering the addresses
+accordingly. Nearly all programs import DLLs of some kind. Regular Windows
+executables are unable to call int instructions (as was possible with
+MS-DOS) and must make API calls in order to perform useful work. The loader
+loads the statically imported DLLs, resolves the APIs and writes the
+addresses of API calls to memory. This process is described in more detail
+in the following section. With these processes complete, the process memory
+layout differs from that of the PE file in terms of alignment, section
+length, address relocation and API resolution. If program execution has begun
+the variable data section will also be tainted.
+
+\section{Protection by shuffling section names}
+This thesis presents an obfuscation method in which the program analysis
+by a malicious user (attacker) is made difficult by shuffling section names
+contained in PE header.
+
+The idea is to make it harder for the attacker to find the section in which
+the modifications should be made. This is done by changing the section names
+by shuffling them. Shuffling is done using Knuth's shuffle algorithm (see
+next section).
+
+First the program parses the PE header, then reads section names into an
+array. Then after shuffling the array, section names are written back
+into the file.
+
+The program also prints the old and new section order to stdout.
+
+Even if the attacker completely understands this method, it would still
+require some time for him to understand the role of each section, since the
+order in which section names are assigned is chosen randomly every time.
+In order to make the analysis a success, the attacker must look at the
+characteristics of each section and analyse their contents in order to
+understand their purpose, which requires additional time from the attacker.
+
+The proposed method can easily be automated, and requires no additional
+input or configuration from software authors. This method does not have any
+of the negative effects listed in section 4.4.
+
+The implementation uses C language and data structures from \texttt{winnt.h}
+header. The program works on both Windows and Linux systems.
+
+It is important to keep in mind that this method, just like almost any other
+protection methods, does not protect the executable file from modifications.
+It just makes the analysis and tampering somewhat harder.
+
+The following is the main function of the implementation:
+
+\begin{verbatim}
+int ParseFile(FILE *file)
+{
+    IMAGE_DOS_HEADER dosHeader;
+    IMAGE_NT_HEADERS header;
+
+    if (ReadDosHeader(file, &dosHeader)) {
+        return 1;
+    }
+
+    if (ReadPeHeader(file, &header, dosHeader.e_lfanew)) {
+        return 1;
+    }
+
+    int sectionCount = header.FileHeader.NumberOfSections;
+    IMAGE_SECTION_HEADER sections[ sectionCount ];
+
+    if (ReadSections(file, sections, sectionCount)) {
+        return 1;
+    }
+
+    unsigned char *names[ sectionCount ];
+    ReadSectionNames(sections, names, sectionCount);
+
+    printf("Old order: ");
+    PrintSectionNames(names, sectionCount);
+
+    if (Shuffle(names, sectionCount)) {
+        return 1;
+    }
+
+    printf("New order: ");
+    PrintSectionNames(names, sectionCount);
+
+    if (WriteSectionNames(file,
+                          dosHeader.e_lfanew +
+                          sizeof(IMAGE_NT_HEADERS),
+                          names,
+                          sectionCount)) {
+        return 1;
+    }
+
+    return 0;
+}
+\end{verbatim}
+
+\section{Knuth's shuffle algorithm}
+The protection method described in this text uses Knuth's algorithm for
+randomizing the order of section names.
+
+Shuffling is a process where the order of elements in a data set is randomized
+to provide an element of chance. One of the most common applications of this
+is to shuffle a deck of cards.
+
+Mathematically, the shuffling problem, is basically a problem of computing a
+random permutation of N objects, since shuffling a deck of cards is basically
+subjecting a deck of cards to a random permutation.
+
+Knuth shuffle (after Donald Knuth), also known as Fisher-Yates shuffle, is an
+algorithm for generating a random permutation of a finite set.
+
+There are few basic well known solutions to this problem, the first of this is
+an O(n lg n) algorithm. The solution involves simple assigning a random number
+to each card, and sorting them in order of their assigned number. There is a
+chance that two of the cards are assigned the same number. This check can be
+checked each time you assign a number, or even better this can be checked when
+you sort the cards and redo it all over again, or redo the same problem on the
+smaller set usually 2 cards, if you have got more than 2 cards, actually even
+2 cards, then you’ve chosen a bad random number generator.
+
+The more elegant and faster of the two algorithms is also known as the Knuth
+Shuffle, popularized by Donald Knuth, in his book , The Art of Computer
+Programming. The algorithm was originally published by R.A. Fisher and F.
+Yates [Statitiscal Tables (London 1938, Example 12], in ordinary language, and
+by R. Durstenfeld [CACM 7 (1964), 420] in computer language. Here’s the
+algorithm in ordinary language.
+
+Let $X_{1}, X_{2}, ..., X_{N}$ (In this case $N=52$) be the set of N numbers
+to be shuffled.
+
+\begin{enumerate}
+\item Set j to N
+\item Generate a random number R. (uniformly distributed between 0 and 1)
+\item Set k to $jR+1$. k is now a random integer, between 1 and j.
+\item Exchange $X_{k}$ and $X_{j}$
+\item Decrease j by 1.
+\item If j \textgreater 1, return to step 2.
+\end{enumerate}
+
+The Fisher-Yates shuffle is an in-place shuffle. That is, given a
+preinitialized array, it shuffles the elements of the array in place, rather
+than producing a shuffled copy of the array. This can be an advantage if the
+array to be shuffled is large.
+
+The following is our implemetation of this algorithm for the project, from file
+\texttt{shuffle.c}:
+
+\begin{verbatim}
+#include <string.h> // memcpy()
+#include <stdlib.h> // malloc(), free(), rand()
+#include <stdio.h>
+
+#include "winnt.h"
+
+static int Swap(unsigned char *a, unsigned char *b)
+{
+    void *temp = malloc(IMAGE_SIZEOF_SHORT_NAME);
+    if (temp == NULL) {
+        perror("Could not allocate memory");
+        return 1;
+    }
+
+    memcpy(temp, a, IMAGE_SIZEOF_SHORT_NAME);
+    memcpy(a, b, IMAGE_SIZEOF_SHORT_NAME);
+    memcpy(b, temp, IMAGE_SIZEOF_SHORT_NAME);
+    free(temp);
+
+    return 0;
+}
+
+int Shuffle(unsigned char * arr[], int length)
+{
+    int random;
+
+    int i;
+    for (i = 0; i != length; i++) {
+        random = rand() % (length - i);
+
+        if (Swap(arr[ length - 1 - i ], arr[ random ])) {
+            return 1;
+        }
+    }
+
+    return 0;
+}
+\end{verbatim}
+
+\section{Conclusions}
+Since this protection method is applied on compiled executables, that means no
+modification is performed on source code of programs. This in turn means that
+none of the negative effects of software protection listed in section 4.4 are
+present in our method.
+
+This protection method can be used in conjunction with any other method, as it
+does not modify anything except the section names in the PE header.
+
+Since section names are generated randomly, this method is
+resistant to break once-run everywhere types of attacks.
+
+\section{References}
+\url{https://en.wikibooks.org/wiki/X86_Disassembly/Windows_Executable_Files#PE_Optional_Header}\\
+\url{http://www.accessroot.com/arteam/site/download.php?view.112}\\
+\url{http://aerokid240.blogspot.com/2011/03/windows-and-its-pe-file-structure.html}\\
+\url{http://www.stackexchange.com/}\\
+\url{http://www.coep.org.in/page_assets/341/121003016.pdf}\\
+\url{http://tekpool.wordpress.com/2006/10/06/shuffling-shuffle-a-deck-of-cards-knuth-shuffle/}
+
+\end{document}
+

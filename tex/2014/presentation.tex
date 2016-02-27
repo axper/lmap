@@ -1,0 +1,233 @@
+\documentclass[11pt]{beamer}
+\usefonttheme{serif}
+\usepackage{polyglossia}
+\usepackage{fontspec}
+\usepackage{xltxtra}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tikz}
+\setdefaultlanguage{armenian}
+\newfontfamily{\armenianfont}{DejaVu Sans}
+\newfontfamily{\armenianfonttt}{DejaVu Sans Mono}
+\newfontfamily{\armenianmathfont}{DejaVu Sans}
+\newfontfamily{\armenianfont}{DejaVu Sans}
+%\ExplSyntaxOn
+%\DeclareSymbolFont{armenianletters}{\g_fontspec_encoding_tl}{\l_fontspec_family_tl}{m}{it}
+%\int_step_inline:nnnn { "531 } { 1 } { "556 }
+%{
+%\Umathcode #1 = "0 \symarmenianletters #1
+%}
+%\int_step_inline:nnnn { "561 } { 1 } { "587 }
+%{
+%\Umathcode #1 = "0 \symarmenianletters #1
+%}
+%\ExplSyntaxOff
+\renewcommand*\contentsname{Բովանդակություն}
+\renewcommand{\figurename}{Նկար}
+\urlstyle{tt}
+\hypersetup{
+    colorlinks=true,
+    linktoc=all,
+    linkcolor=blue,
+}
+\definecolor{bluekeywords}{rgb}{0,0,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.64,0.08,0.08}
+\definecolor{xmlcomments}{rgb}{0.5,0.5,0.5}
+\definecolor{types}{rgb}{0.17,0.57,0.68}
+\lstset{language=C++,
+  frame=b,
+  showtabs=false,
+  tabsize=4,
+  breaklines=true,
+  showstringspaces=false,
+  breakatwhitespace=true,
+  escapeinside={(*@}{@*)},
+  commentstyle=\color{greencomments},
+  keywordstyle=\color{bluekeywords},
+  stringstyle=\color{redstrings},
+  basicstyle=\ttfamily
+}
+\definecolor{lightgray}{gray}{0.9}
+
+\title[Մեքենայական լեզվով ծրագրերի պաշտպանությունը վերծանումից]{Մեքենայական լեզվով ծրագրերի պաշտպանությունը վերծանումից}
+\author{Խումբ՝ Հ055-2\\Ուսանող` Բաբկեն Վարդանյան\\Ղեկավար՝ տ․գ․թ, դոցենտ Ռ․ Գ․ Հակոբյան}
+\institute[ՀՊՃՀ]{Հայաստանի Պետական Ճարտարագիտական Համալսարան\\Քոմփյութերային Համակարգերի և Ինֆորմատիկայի Ֆակուլտետ}
+\date{Երևան 2014}
+
+\usetheme{Singapore}
+\usecolortheme{seahorse}
+\setbeamertemplate{frametitle}[default][center]
+
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+%\begin{frame}%\frametitle{Outline}
+%\tableofcontents
+%\end{frame}
+
+\section{Ներածություն}
+
+\begin{frame}\frametitle{Ներածություն}
+\begin{itemize}
+\item Ծրագրերի մեծամասնությունը պաշտպանության կարիք ունի
+\item Պաշտպանությունը դժվար գործ է, բայց անհրաժեշտ
+\item Հնարավոր չէ ծրագիրը 100\%֊ով պաշտպանել
+\item Բայց հնարավոր է վերծանման ժամանակը ավելացնել
+\end{itemize}
+\end{frame}
+
+\section{Վերծանում և պաշտպանություն}
+
+\begin{frame}\frametitle{Սպառնալիքներ}
+Ծրագրային ապահովմանը սպառնալիքներ
+\begin{enumerate}
+\item Վերծանում
+\item Փոփոխություններ
+\item Ապօրինի օգտագործում
+\end{enumerate}
+\end{frame}
+
+\begin{frame}\frametitle{Վերծանման միջոցներ}
+\begin{columns}[t]
+\column{.5\textwidth}
+\begin{block}{Ստատիկ վերծանում}
+\begin{figure}[p]
+\centering
+\includegraphics[width=1.0\textwidth]{static.png}
+\end{figure}
+\end{block}
+\column{.5\textwidth}
+\begin{block}{Դինամիկ վերծանում}
+\begin{figure}[p]
+\centering
+\includegraphics[width=1.0\textwidth]{olly.png}
+\end{figure}
+\end{block}
+\end{columns}
+\end{frame}
+
+\begin{frame}\frametitle{Պաշտպանության միջոցներ}
+Պաշտպանության միջոցների տեսակներ
+\begin{enumerate}
+\item Ջրանշում
+\item Ծրագիրը որպես ծառայություն
+\item Օբֆուսկացիա
+\end{enumerate}
+\end{frame}
+
+\begin{frame}\frametitle{Օբֆուսկացիա}
+\footnotesize{
+\begin{columns}[t]
+\column{.5\textwidth}
+\begin{block}{\small{Ստատիկ հարձակման դեմ}}
+\begin{itemize}
+\item Ինքնաձևափոխվող կոդ
+\item Գաղտնագրում
+\item Սեղմող ծրագրեր
+\end{itemize}
+\end{block}
+\column{.5\textwidth}
+\begin{block}{\small{Դինամիկ հարձակման դեմ}}
+\begin{itemize}
+\item Կարգաբերիչների առկայության ստուգում
+\item Բազմաձևություն (պոլիմորֆիզմ)
+\item Զուգահեռացում
+\end{itemize}
+\end{block}
+\end{columns}
+}
+\end{frame}
+
+\begin{frame}\frametitle{Պաշտպանության գնահատում}
+\begin{itemize}
+\item Կարողություն` մարդու դեմ
+\item Ճկունություն՝ ավտոմատացված ծրագրի դեմ
+\item Տվյալների թաքցնում
+\item Գին (Բացասական ազդեցություններ)
+	\begin{enumerate}
+	\item Ծրագրի սպասարկման վրա ծախսեր
+	\item Արագագործության կորուստ
+	\item Կարգաբերման բարդացում
+	\item Ֆայլի չափի մեծացում
+	\end{enumerate}
+\end{itemize}
+\end{frame}
+
+\section{PE ֆայլ}
+
+\begin{frame}\frametitle{PE ֆայլի կառուցվածքը}
+\begin{tikzpicture}[remember picture,overlay]
+\node[at=(current page.center)] {
+\includegraphics[width=\paperwidth]{structure.png}
+};
+\end{tikzpicture}
+\end{frame}
+
+\section{Մշակված ալգորիթմի աշխատանքը}
+
+\begin{frame}\frametitle{Պաշտպանության ալգորիթմը}
+\begin{enumerate}
+\item Սեկցիաների անունների հասցեները պահվում են զանգվածի մեջ
+\item Խառնվում են Կնուտի ալգորիթմով
+\item Արդյունքը հետ է գրվում ֆայլի մեջ
+\end{enumerate}
+\begin{columns}[t]
+\column{.5\textwidth}
+\begin{block}{\small{Պաշտպանությունից առաջ}}
+\begin{figure}[p]
+\centering
+\includegraphics[width=1.0\textwidth]{before.png}
+\end{figure}
+\end{block}
+\column{.5\textwidth}
+\begin{block}{\small{Պաշտպանությունից հետո}}
+\begin{figure}[p]
+\centering
+\includegraphics[width=1.0\textwidth]{after.png}
+\end{figure}
+\end{block}
+\end{columns}
+\end{frame}
+
+\begin{frame}\frametitle{Կնուտի ալգորիթմ}
+\begin{center}
+	\texttt{
+\begin{tabular}{|r|c|r|l|}\hline
+\multicolumn{1}{|c|}{\textnormal{Միջ.}} &
+\multicolumn{1}{|c|}{\textnormal{Պատահ.}} &
+\multicolumn{1}{|c|}{\textnormal{Մնացածը}} &
+\multicolumn{1}{|c|}{\textnormal{Արդյունքը}}
+\\ \hline \hline
+ & & 1 2 3 4 5 6 7 8 & \\ \hline
+1–8 & 6 & 1 2 3 4 5 \textbf{8} 7 & \textbf{6} \\ \hline
+1–7 & 2 & 1 \textbf{7} 3 4 5 8 & \textbf{2} 6 \\ \hline
+1–6 & 6 & 1 7 3 4 5 & \textbf{8} 2 6 \\ \hline
+1–5 & 1 & \textbf{5} 7 3 4 & \textbf{1} 8 2 6 \\ \hline
+1–4 & 3 & 5 7 \textbf{4} & \textbf{3} 1 8 2 6 \\ \hline
+1–3 & 3 & 5 7 & \textbf{4} 3 1 8 2 6 \\ \hline
+1–2 & 1 & \textbf{7} & \textbf{5} 4 3 1 8 2 6 \\ \hline
+\end{tabular}
+\textnormal{Արդյունք՝ } 7 5 4 3 1 8 2 6
+	}
+\end{center}
+\end{frame}
+
+\section{}
+
+\begin{frame}\frametitle{Օգտագործված գրականություն}
+\begin{enumerate}
+\item \url{http://aerokid240.blogspot.com/2011/03/windows-and-its-pe-file-structure.html}
+\item \url{http://en.wikipedia.org/wiki/Fisher–Yates\_shuffle}
+\item \url{http://www.ollydbg.de/}
+\item Project URL: \url{github.com/axper/shuffle-pe-section-names}
+\end{enumerate}
+\end{frame}
+
+\end{document}
