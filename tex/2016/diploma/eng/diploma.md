@@ -29,28 +29,28 @@ TOC
 Abbreviations
 =============
 
-Lmap - Local Nmap
-TCP - Transmission control protocol
-UDP - User datagram protocol
-IDS - Intrusion detection system
-psutil - python system and process utilities
+- Lmap - Local Nmap
+- TCP - Transmission control protocol
+- UDP - User datagram protocol
+- IDS - Intrusion detection system
+- psutil - python system and process utilities
 
-Preface
-=======
+Introduction
+============
 
 Why information security matters
 --------------------------------
 
 ### What is information security?
 
-[20]
-Information security is the process of preventing and detecting the unauthorized access to information resources. [23]
+Information security is the process of prevention and detection the unauthorized access to information resources. [23]
 
 Prevention is the process of stopping unauthorized malicious people (also known as "attackers", "intruders", "hackers") of accessing
 a part of the software or data they are not authorized to access.
 
 Detection is the process of determining whether an attempt unauthorized access has took place, and if so, whether it was
 successful and what exactly has been done.
+[20]
 
 ### Why should we care about information security?
 
@@ -135,7 +135,7 @@ Scanners are pieces of software which help automate and ease the process of secu
 Software static/dynamic analysis tools such as Sonar for java, Valgrind for C etc help find bugs and vulnerabilities early
 in application lifecycle.
 Network security scanners help administrators to ensure the security of their servers. These tools are able to find open ports, 
-vulnerabile services and even viruses.
+vulnerable services and even viruses.
 A list of well known network scanners includes:
     1. Nmap
     2. Nessus
@@ -212,7 +212,7 @@ An alternative
 In this document, we present an alternative way of evaluating server vulnerabilities which scans the system for
 vulnerabilities from the inside
 
-This program is partially inspired by Microsoft Baseline Security Analyzer
+This program is partially inspired by Microsoft Baseline Security Analyzer. [24]
 
 This program leaves a lot of thinking to the user,
 
@@ -357,5 +357,9 @@ Sources
 [21]http://www.acunetix.com/websitesecurity/webserver-security/
 [22]https://www.onehoursitefix.com/why-would-hackers-hack-my-website/
 [23]http://searchsecurity.techtarget.com/definition/information-security-infosec
+[24]https://msdn.microsoft.com/en-us/library/ff647642.aspx
 
 TODO: iso 27001
+TODO: MSBA ?
+TODO: http://lazy2hack.blogspot.am/2010/03/collection-of-security-checks-for-linux.html
+TODO: http://buck-security.sourceforge.net/documentation.html
