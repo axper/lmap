@@ -64,7 +64,7 @@
 \pagenumbering{arabic}
 \setcounter{page}{2}
 %\pagenumbering{gobble}
-Կցանկանայի խորին երախտագիտությունս հայտնել իմ ղեկավար >>>տ․գ․թ․, դոցենտ<<<<
+Կցանկանայի խորին երախտագիտությունս հայտնել իմ ղեկավար >>>ԿՈՉՈՒՄ<<<
 Մարիամ Հարությունյանին (ԻԱՊԻ), ով ինձ աջակցել և խրախուսել է այս աշխատանքի
 ժամանակ։
 
@@ -112,6 +112,9 @@
 չարամիտ&malicious \\
 պատկեր&image \\
 պրոցես&thread \\
+\end{tabular}
+
+\begin{tabular}{rl}
 սեղմող ծրագիր&packer \\
 սկզբնական կոդ&source code \\
 սպասարկում&maintenance \\
@@ -123,16 +126,12 @@
 վնասաբեր ծրագրեր&malware \\
 տվյալների դիրեկտորիա&data directory \\
 փոփոխություններ&tampering \\
-\end{tabular}
-
-\begin{tabular}{rl}
 քանդել&disassemble \\
 օբֆուսկացիա&obfuscation \\
 օրինաչափություն&pattern \\
-Lmap&Լոկալ Nmap \\
-TCP&Փոխանցման կառավարման հաղորդակարգ \\
-UDP&Օգտագործողի դատագրամ հաղորդակարգ \\
-IDS&Ներխուժում հայտնաբերող համակարգ \\
+ՓԿՀ&TCP \\
+ՕԴՀ&UDP \\
+ՆՀՀ&IDS \\
 psutil&python system and process utilities \\
 ընդլայնում&extension \\
 նախապես որոշված&predefined \\
@@ -148,7 +147,9 @@ psutil&python system and process utilities \\
 Սխալ կոնֆիգուրացիա&Misconfiguration \\
 \end{tabular}
 
+
 \subsection{Ինչու է տեղեկատվական անվտանգությունը կարևոր}
+
 
 \subsubsection{Ի՞նչ է տեղեկատվական անվտանգությունը}
 
@@ -347,7 +348,7 @@ DDoS հարձակումներ իրականցնելու համար։
 
 Լինուքսի վրա հիմնված համակարգերում հակավիրուսի անհրաժեշտություն կարող է
 առաջանալ միայն այն պարագայում, երբ այն օգտագործվում է Վինդոուս համակարգերի
-միջև ֆայլերի փոխանակաման համար։
+միջև ֆայլերի փոխանակաման համար։ [19]
 
 \subsubsection{Պորտերի սկանավորում}
 
@@ -455,7 +456,7 @@ Microsoft Baseline Security Analyzer ծրագրի կողմից։ [24]
 Ծրագիրը որոշում է վերջին թարմացման ժամանակը /var/cache/apt/
 թղթապանակում վերջին գրանցման ժամանակով։ [8]
 
-\subsubsectino{Red Hat/YUM-ի վրա հիմնված համակարգեր}
+\subsubsection{Red Hat/YUM-ի վրա հիմնված համակարգեր}
 
 Ծրգաիրը որոշում է վերջին թարմացման ժամանակը `yum history`
 հրահանգի ելքը վերլուծելով: [9]
@@ -488,13 +489,13 @@ Microsoft Baseline Security Analyzer ծրագրի կողմից։ [24]
 
 Դա կատարվում է՝
 
-    awk -F: '($2=="") {print}' /etc/shadow
+    %awk -F: '($2=="") {print}' /etc/shadow
 
 
 \subsection{Համոզվել որ ոչ համակարգային օգտագործողների UID-ն 0 է}
 
 [15]
-awk -F: '($3 == "0") {print}' /etc/passwd
+%awk -F: '($3 == "0") {print}' /etc/passwd
 
 \subsection{Սերվիսներին հատուկ ստուգումներ}
 
@@ -502,7 +503,7 @@ awk -F: '($3 == "0") {print}' /etc/passwd
 
 SSH սերվերի կոնֆիգուրացիոն ֆայլն է՝
 
-    /etc/ssh/sshd_config
+    /etc/ssh/ssh\_config
 
 Այսօր խոցելի համարվող SSH v1 արձանագրությունը չպետք է միացված լինի։
 Այս համակարգի խոցելիությունը խոցվել է վայրի միջավայրում WOOT
@@ -516,7 +517,7 @@ SSH սերվերի կոնֆիգուրացիոն ֆայլն է՝
 
 \subsubsection{MySQL}
 
-MySQL֊ը այսօր ամենատարածված ռելացիոն տվյալների բազաներից է աշխարհում։
+MySQL֊ը այսօր ամենատարածված ռելացիոն տվյալների բազաներից է աշխարհում։ [4]
 Ծրագիրը սկանավորում է հետևյալ կոնֆիգուրացիոն ֆայլերը սխալների համարէ
 
     /etc/my.cnf
@@ -568,43 +569,60 @@ FTP արձանագրությունը ապահով չէ, քանի որ օգտագ
 
 
 
-
-
-
 \newpage
 \section*{Գրականության ցանկ}
 \addcontentsline{toc}{section}{\protect\numberline{}Գրականության ցանկ}
 \begin{enumerate}
-\item Windows and its PE file structure\\
-	\url{http://aerokid240.blogspot.com/2011/03/}
-\item \url{http://www.stackexchange.com/}
+\item 1 \\
+	\url{http://sectools.org/}
+\item 2 \\
+	\url{https://docs.python.org/2/library/socket.html}
+\item 3 \\
+	\url{https://pythonhosted.org/psutil/}
+\item 4 \\
+	\url{http://db-engines.com/en/ranking}
+\item 5 \\
+	\url{http://www.yolinux.com/TUTORIALS/LinuxTutorialInternetSecurity.html}
+\item 6 \\
+	\url{http://www.yolinux.com/TUTORIALS/LinuxTutorial-woot-project.html}
+\item 7 \\
+	\url{http://www.iss.net/threats/advise100.html}
+\item 8 \\
+	\url{http://serverfault.com/questions/20747/find-last-time-update-was-performed-with-apt-get}
+\item 9 \\
+	\url{http://serverfault.com/questions/389650/how-to-check-when-yum-update-was-last-run}
+\item 10 \\
+	\url{https://bbs.archlinux.org/viewtopic.php?id=150428}
+\item 11 \\
+	\url{https://www.digitalocean.com/community/tutorials/7-security-measures-to-protect-your-servers}
+\item 12 \\
+	\url{http://askubuntu.com/questions/16178/why-is-it-bad-to-login-as-root}
+\item 13 \\
+	\url{http://www.tecmint.com/linux-server-hardening-security-tips/}
+\item 14 \\
+	\url{https://www.digitalocean.com/community/tutorials/an-introduction-to-securing-your-linux-vps}
+\item 15 \\
+	\url{http://www.cyberciti.biz/tips/linux-security.html}
+\item 16 \\
+	\url{http://serverfault.com/questions/632/do-you-run-antivirus-on-your-windows-servers}
+\item 17 \\
+	\url{http://www.howtogeek.com/135392/htg-explains-why-you-dont-need-an-antivirus-on-linux-and-when-you-do/?PageSpeed=noscript}
+\item 18 \\
+	\url{https://antivirus.comodo.com/how-antivirus-software-works.php}
+\item 19 \\
+	\url{http://security.stackexchange.com/a/53462/37546}
+\item 20 \\
+	\url{http://cybercellmumbai.gov.in/html/general-tips/what\_is\_computer\_security.html}
+\item 21 \\
+	\url{http://www.acunetix.com/websitesecurity/webserver-security/}
+\item 22 \\
+	\url{https://www.onehoursitefix.com/why-would-hackers-hack-my-website/}
+\item 23 \\
+	\url{http://searchsecurity.techtarget.com/definition/information-security-infosec}
+\item 24 \\
+	\url{https://msdn.microsoft.com/en-us/library/ff647642.aspx}
 \end{enumerate}
 
-
-[1]http://sectools.org/
-[2]https://docs.python.org/2/library/socket.html
-[3]https://pythonhosted.org/psutil/
-[4]http://db-engines.com/en/ranking
-[5]http://www.yolinux.com/TUTORIALS/LinuxTutorialInternetSecurity.html
-[6]http://www.yolinux.com/TUTORIALS/LinuxTutorial-woot-project.html
-[7]http://www.iss.net/threats/advise100.html
-[8]http://serverfault.com/questions/20747/find-last-time-update-was-performed-with-apt-get
-[9]http://serverfault.com/questions/389650/how-to-check-when-yum-update-was-last-run
-[10]https://bbs.archlinux.org/viewtopic.php?id=150428
-[11]https://www.digitalocean.com/community/tutorials/7-security-measures-to-protect-your-servers
-[12]http://askubuntu.com/questions/16178/why-is-it-bad-to-login-as-root
-[13]http://www.tecmint.com/linux-server-hardening-security-tips/
-[14]https://www.digitalocean.com/community/tutorials/an-introduction-to-securing-your-linux-vps
-[15]http://www.cyberciti.biz/tips/linux-security.html
-[16]http://serverfault.com/questions/632/do-you-run-antivirus-on-your-windows-servers
-[17]http://www.howtogeek.com/135392/htg-explains-why-you-dont-need-an-antivirus-on-linux-and-when-you-do/?PageSpeed=noscript
-[18]https://antivirus.comodo.com/how-antivirus-software-works.php
-[19]http://security.stackexchange.com/a/53462/37546
-[20]http://cybercellmumbai.gov.in/html/general-tips/what_is_computer_security.html
-[21]http://www.acunetix.com/websitesecurity/webserver-security/
-[22]https://www.onehoursitefix.com/why-would-hackers-hack-my-website/
-[23]http://searchsecurity.techtarget.com/definition/information-security-infosec
-[24]https://msdn.microsoft.com/en-us/library/ff647642.aspx
 
 TODO: iso 27001
 TODO: MSBA ?
@@ -631,7 +649,7 @@ TODO: http://buck-security.sourceforge.net/documentation.html
 \addcontentsline{toc}{subsection}{\protect\numberline{}Սկզբնական կոդ}
 
 \textit{main.py}
-\lstinputlisting{../../../src/main.py}
+%\lstinputlisting{../../../src/main.py}
 
 \newpage
 \subsection*{Իրականացման աշխատանքը}
