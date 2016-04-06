@@ -1,7 +1,10 @@
 #!/usr/bin/env python
-import psutil
-from socket import SOCK_STREAM
 from socket import SOCK_DGRAM
+from socket import SOCK_STREAM
+
+import psutil
+
+from lmap.src.scanner import update
 
 
 def port_is_open_and_externally_accessible(connection):
@@ -38,6 +41,7 @@ def main():
                       )
             else:
                 print('Unknown PID', '\n')
+    update.scan()
 
 
 if __name__ == "__main__":
