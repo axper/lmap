@@ -32,7 +32,7 @@ class Update(BaseScanner):
             if last_update_date is None:
                 return ScanStatus.unknown, ''
             elif datetime.today() - last_update_date < timedelta(days=config_update_interval_days):
-                return ScanStatus.ok, ''
+                return ScanStatus.success, ''
             else:
                 return ScanStatus.fail, ''
 
@@ -54,7 +54,7 @@ class Update(BaseScanner):
         if last_update_date is None:
             return ScanStatus.unknown, ''
         elif datetime.today() - last_update_date < timedelta(days=config_update_interval_days):
-            return ScanStatus.ok, ''
+            return ScanStatus.success, ''
         else:
             return ScanStatus.fail, ''
 

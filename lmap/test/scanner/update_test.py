@@ -67,7 +67,7 @@ class Test(unittest.TestCase):
             result = update.scan_arch()
 
             # Assertions
-            self.assertEqual(result[0], ScanStatus.ok)
+            self.assertEqual(result[0], ScanStatus.success)
             mock_file.assert_called_once_with('/var/log/pacman.log')
             update.get_pacman_last_update_date.assert_called_once_with([])
 
@@ -105,26 +105,26 @@ class Test(unittest.TestCase):
         # Prepare data and mocks
         with patch('platform.linux_distribution', lambda: ('arch', None, None)):
             update = Update(None)
-            update.scan_arch = MagicMock(return_value=(ScanStatus.ok, 'message'))
+            update.scan_arch = MagicMock(return_value=(ScanStatus.success, 'message'))
 
             # Run test scenario
             result = update.scan()
 
             # Assertions
-            self.assertEqual(result, (ScanStatus.ok, 'message'))
+            self.assertEqual(result, (ScanStatus.success, 'message'))
             update.scan_arch.assert_called_once_with()
 
     def test_scan_when_debian(self):
         # Prepare data and mocks
         with patch('platform.linux_distribution', lambda: ('debian', None, None)):
             update = Update(None)
-            update.scan_debian = MagicMock(return_value=(ScanStatus.ok, 'message'))
+            update.scan_debian = MagicMock(return_value=(ScanStatus.success, 'message'))
 
             # Run test scenario
             result = update.scan()
 
             # Assertions
-            self.assertEqual(result, (ScanStatus.ok, 'message'))
+            self.assertEqual(result, (ScanStatus.success, 'message'))
             update.scan_debian.assert_called_once_with()
 
     def test_scan_when_redhat(self):
@@ -195,7 +195,7 @@ class Test(unittest.TestCase):
         result = update.scan_debian()
 
         # Assertions
-        self.assertEqual(result[0], ScanStatus.ok)
+        self.assertEqual(result[0], ScanStatus.success)
         update.get_apt_last_update_date.assert_called_once_with('/var/lib/apt/periodic/update-success-stamp')
 
     def test_scan_debian_when_last_update_date_not_found(self):
