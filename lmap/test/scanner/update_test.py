@@ -2,9 +2,9 @@ import os
 import unittest
 from datetime import datetime, timedelta
 
-from src.scanner.update import Update
+from scanner.update import Update
 from unittest.mock import patch, mock_open, MagicMock
-from src.scanner.scan_status import ScanStatus
+from scanner.scan_status import ScanStatus
 from tempfile import NamedTemporaryFile
 
 

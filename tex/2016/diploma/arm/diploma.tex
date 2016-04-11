@@ -8,6 +8,7 @@
 \usepackage{fancyhdr}
 \usepackage[titles]{tocloft}
 \usepackage{pdfpages}
+\usepackage{indentfirst}
 \usepackage[top=20mm, bottom=20mm, left=30mm, right=10mm]{geometry}
 \hypersetup{
     colorlinks=true, %set true if you want colored links
@@ -657,6 +658,12 @@ Linux-ի ֆայլային համակարգերում Stiky բիթը դիրեկտ
 
 \subsection{Բաց TCP և UDP պորտեր}
 
+
+Յուրաքանչյուր բաց պորտ մեծացնում է հարձակման հարթությունը։ [37]
+
+Այդ պատճառով անհրաժեշտ է սահմանափակել բաց պորտերի քանակը,
+կամ դրանք ծածկել firewall-ով։
+
 Ծրագիրը պետք է օգտագործողին ներկայացնի բոլոր բաց 
 TCP և UDP պորտերի ցանկը, և դրանց տակ աշխատող սերվիսների
 անունները, հնարավորության դեպքում՝ նաև այն կատարվող
@@ -850,8 +857,6 @@ update.warn\_last\_update\_interval\_days
 առանձին ելք։
 
 
-
-
 \newpage
 \section{Եզրակացություն}
 
@@ -944,6 +949,8 @@ update.warn\_last\_update\_interval\_days
 	\url{http://serverfault.com/questions/389650/how-to-check-when-yum-update-was-last-run}
 \item 36 \\
 	\url{https://en.wikiversity.org/wiki/Python/Why\_learn\_Python}
+\item 37 \\
+	\url{http://superuser.com/questions/82488/why-is-it-bad-to-have-open-ports}
 \end{enumerate}
 
 

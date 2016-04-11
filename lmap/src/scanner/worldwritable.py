@@ -1,8 +1,8 @@
 import os
 import stat
 
-from src.scanner.base_scanner import BaseScanner
-from src.scanner.scan_status import ScanStatus
+from scanner.base_scanner import BaseScanner
+from scanner.scan_status import ScanStatus
 
 
 class WorldWritable(BaseScanner):
