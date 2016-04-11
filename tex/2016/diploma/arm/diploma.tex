@@ -40,26 +40,41 @@
 \definecolor{redstrings}{rgb}{0.64,0.08,0.08}
 \definecolor{xmlcomments}{rgb}{0.5,0.5,0.5}
 \definecolor{types}{rgb}{0.17,0.57,0.68}
+
+\makeatletter
+\DeclareRobustCommand{\getlstname}{%
+ \begingroup
+  % \lstname seems to change hyphens into \textendash
+  \def\textendash{-}%
+  \filename@parse{\lstname}%
+  \texttt{\filename@base.\filename@ext}%
+ \endgroup
+}
+\makeatother
+
 \lstset{
   language=python,
-  frame=bt,
   showtabs=false,
   tabsize=4,
   breaklines=true,
+  breakatwhitespace=false,
   showstringspaces=false,
   breakatwhitespace=true,
   escapeinside={(*@}{@*)},
   commentstyle=\color{greencomments},
   keywordstyle=\color{bluekeywords},
   stringstyle=\color{redstrings},
-  basicstyle=\armenianfonttt\footnotesize
+  basicstyle=\armenianfonttt\footnotesize,
+  caption=\getlstname
 }
 
-%\pagestyle{fancy}
-%\fancyhf{}
-%\fancyhead[R]{\thepage}
+\makeatletter
+\def\lst@lettertrue{\let\lst@ifletter\iffalse}
+\makeatother
+
 
 \renewcommand{\figurename}{Նկար}
+\renewcommand{\lstlistingname}{Սկզբնական կոդ}
 
 
 \begin{document}
@@ -80,8 +95,8 @@
 
 \tableofcontents
 
-\section{Ներածություն}
 \begin{sloppypar}
+\section{Ներածություն}
 \subsection{Տեխնիկական բառարան}
 
 \begin{tabular}{rl}
@@ -573,7 +588,7 @@ apt-get update հրահանգի վերջին կատարման ժամանակի �
 
 yum history հրահանգը արտածում է նմանօրինակ ելք`
 
-\begin{lstlisting}
+\begin{lstlisting}[language={}]
 # yum  history
 Loaded plugins: fastestmirror, refresh-packagekit
 ID     | Login user               | Date and time    | Action(s)      | Altered
@@ -596,7 +611,7 @@ Pacman փաթեթների մենեջերի գործողությունների գ
 վերջին թարմացման ժամանակը վելուծելով վերոնշյալ ֆայլի պարունակությունը:
 Այն ունի նմանօրինակ պարունակություն՝
 
-\begin{lstlisting}
+\begin{lstlisting}[language={}]
 [2016-04-05 10:22] [ALPM] transaction started
 [2016-04-05 10:23] [ALPM] installed pycharm-community (2016.1-1)
 [2016-04-05 10:23] [ALPM] transaction completed
@@ -1003,9 +1018,29 @@ TODO: http://lazy2hack.blogspot.am/2010/03/collection-of-security-checks-for-lin
 
 \section*{Սկզբնական կոդ}
 
-\textit{main.py}
-%\lstinputlisting{../../../src/main.py}
 
+
+
+\lstinputlisting[language=python]{../../../../lmap/src/lmap.py}
+\lstinputlisting[language=python]{../../../../lmap/test/lmap_test.py}
+
+\lstinputlisting[language={}]{../../../../lmap/src/config.yml}
+\lstinputlisting[language=python]{../../../../lmap/src/scanner/scan_status.py}
+\lstinputlisting[language=python]{../../../../lmap/src/scanner/base_scanner.py}
+
+\lstinputlisting[language=python]{../../../../lmap/src/scanner/openports.py}
+\lstinputlisting[language=python]{../../../../lmap/test/scanner/openports_test.py}
+
+\lstinputlisting[language=python]{../../../../lmap/src/scanner/update.py}
+\lstinputlisting[language=python]{../../../../lmap/test/scanner/update_test.py}
+
+\lstinputlisting[language=python]{../../../../lmap/src/scanner/worldwritable.py}
+\lstinputlisting[language=python]{../../../../lmap/test/scanner/worldwritable_test.py}
+\end{sloppypar}
+
+\begin{lstlisting}
+c4cf0c02c2fa93-86651535b2d2658129f10ac013fcc4e490b0ebd1cb006827f09ad15719b43f85d1e0ae4258a75ae4e6ad2ca5q9b5f93c149692ea9-a194d7e245b27ae4e95ef538c1ee51f5b18b1a74878d66814b67bd1e308cc69d269f896b336a15e5dd5f56faaf0959d344af238be5b15abb0291851e53b6d67a5d2ff9b915d0f75800a8483c5d4f1ae9906f4702f2e0ceee87f6184c79b31648df414a49c4927591cd1a0bd44e74e834e06ca3c9f551b8b689a70672c833704960e17c74558099c99e4ac4ce3f01cad625a985737eb275433e0361ea5492a2bbb1f0058ff30191c1f1960327b0039de5a4cc05483ab55558cc91b440c807a25e373ddf7ad3c8a4d7e0c327e41e887bd668fd3ea96f
+\end{lstlisting}
 
 \newpage
 \section*{Իրականացման աշխատանքը}
@@ -1018,5 +1053,4 @@ TODO: http://lazy2hack.blogspot.am/2010/03/collection-of-security-checks-for-lin
 \end{figure}
 
 
-\end{sloppypar}
 \end{document}
