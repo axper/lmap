@@ -3,8 +3,8 @@ import platform
 import re
 from datetime import datetime, timedelta
 
-from src.scanner.base_scanner import BaseScanner
-from src.scanner.scan_status import ScanStatus
+from scanner.base_scanner import BaseScanner
+from scanner.scan_status import ScanStatus
 
 
 class Update(BaseScanner):

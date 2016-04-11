@@ -3,9 +3,6 @@ from socket import SOCK_DGRAM, SOCK_STREAM
 from unittest.mock import MagicMock, call
 
 from scanner.openports import OpenPorts
-
-
-# noinspection PyUnusedLocal
 from scanner.scan_status import ScanStatus
 
 
