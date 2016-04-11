@@ -1,6 +1,6 @@
 \documentclass[12pt]{article}
 \usepackage{polyglossia}
-\usepackage{url}
+\usepackage[hyphens]{url}
 \usepackage{listings}
 \usepackage{graphicx}
 \usepackage{color}
@@ -58,8 +58,8 @@
   tabsize=4,
   breaklines=true,
   breakatwhitespace=false,
+  breakindent=2.42em,
   showstringspaces=false,
-  breakatwhitespace=true,
   escapeinside={(*@}{@*)},
   commentstyle=\color{greencomments},
   keywordstyle=\color{bluekeywords},
@@ -1037,10 +1037,6 @@ TODO: http://lazy2hack.blogspot.am/2010/03/collection-of-security-checks-for-lin
 \lstinputlisting[language=python]{../../../../lmap/src/scanner/worldwritable.py}
 \lstinputlisting[language=python]{../../../../lmap/test/scanner/worldwritable_test.py}
 \end{sloppypar}
-
-\begin{lstlisting}
-c4cf0c02c2fa93-86651535b2d2658129f10ac013fcc4e490b0ebd1cb006827f09ad15719b43f85d1e0ae4258a75ae4e6ad2ca5q9b5f93c149692ea9-a194d7e245b27ae4e95ef538c1ee51f5b18b1a74878d66814b67bd1e308cc69d269f896b336a15e5dd5f56faaf0959d344af238be5b15abb0291851e53b6d67a5d2ff9b915d0f75800a8483c5d4f1ae9906f4702f2e0ceee87f6184c79b31648df414a49c4927591cd1a0bd44e74e834e06ca3c9f551b8b689a70672c833704960e17c74558099c99e4ac4ce3f01cad625a985737eb275433e0361ea5492a2bbb1f0058ff30191c1f1960327b0039de5a4cc05483ab55558cc91b440c807a25e373ddf7ad3c8a4d7e0c327e41e887bd668fd3ea96f
-\end{lstlisting}
 
 \newpage
 \section*{Իրականացման աշխատանքը}
