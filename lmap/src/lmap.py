@@ -3,6 +3,7 @@ import os
 import yaml
 
 from scanner.openports import OpenPorts
+from scanner.root import Root
 from scanner.update import Update
 from scanner.worldwritable import WorldWritable
 
@@ -16,6 +17,7 @@ def main():
         Update(config),
         OpenPorts(config),
         WorldWritable(config),
+        Root(config)
     ]
     for scanner in scanners:
         print('-' * 79)

@@ -12,13 +12,6 @@ def raise_file_not_found_error(x):
 
 
 class Test(unittest.TestCase):
-    def test_scan_real(self):
-        # Prepare data and mocks
-        test_subject = WorldWritable(None)
-
-        # Run test scenario
-        result = test_subject.scan()
-
     def test_scan_when_success(self):
         # Prepare data and mocks
         test_subject = WorldWritable(None)
