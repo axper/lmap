@@ -15,7 +15,9 @@ class WorldWritable(BaseScanner):
         worldwritable_files_starting_with_dot = self.scan_worldwritable_files_starting_with_dot()
         worldwritable_directories_with_no_sticky_bit_set = self.scan_worldwritable_directories_with_no_sticky_bit_set()
         worldwritable_files_owned_by_root = self.scan_worldwritable_files_owned_by_root()
-        if not worldwritable_files_starting_with_dot and not worldwritable_directories_with_no_sticky_bit_set and not worldwritable_files_owned_by_root:
+        if not worldwritable_files_starting_with_dot and \
+                not worldwritable_directories_with_no_sticky_bit_set and \
+                not worldwritable_files_owned_by_root:
             scan_status = ScanStatus.success
             message = ''
         else:
