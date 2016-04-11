@@ -18,7 +18,12 @@ def main():
         WorldWritable(config),
     ]
     for scanner in scanners:
-        scanner.scan()
+        print('Running:', scanner.__class__.__name__)
+        result = scanner.scan()
+        print('Finished:', scanner.__class__.__name__)
+        print('Status:', result[0])
+        print('Message:\n' + result[1])
+        print('-' * 79)
 
 
 def get_config():
