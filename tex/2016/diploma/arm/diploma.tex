@@ -1,8 +1,12 @@
 \documentclass[a4paper,12pt]{article}
 
 % Author and title
-\author{Բաբկեն Վարդանյան}
-\title{Սերվերային համակարգերի անվտանգությունը գնահատող ծրագրի մշակում}
+\def\MYDIRECTOR{Մարիամ Հարությունյան}
+\def\MYDIRECTORTITLE{ֆիզ.-մաթ. գիտ. դոկտոր, պրոֆեսոր}
+\def\MYAUTHOR{Բաբկեն Վարդանյան}
+\author{\MYAUTHOR}
+\def\MYTITLE{Սերվերային համակարգերի անվտանգությունը գնահատող ծրագրի մշակում}
+\title{\MYTITLE}
 \date{2016}
 
 % Packages
@@ -18,6 +22,7 @@
 \usepackage{indentfirst}
 \usepackage[top=20mm, bottom=20mm, left=30mm, right=10mm]{geometry}
 \usepackage{setspace}
+\usepackage{tabularx}
 
 % Fonts
 \newfontfamily{\armenianfont}{GHEA Grapalat}
@@ -97,17 +102,53 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
-% Setup
-\pagenumbering{arabic}
-\setcounter{page}{1}
-
 % Title page
-\maketitle
+\begin{titlepage}
+	\centering
+	{\LARGE
+		\textit{ՀՀ ԿՐԹՈՒԹՅԱՆ ԵՎ ԳԻՏՈՒԹՅԱՆ ՆԱԽԱՐԱՐՈՒԹՅՈՒՆ} \par
+		\textit{ՀՀ ԳԱԱ ԳԻՏԱԿՐԹԱԿԱՆ ՄԻՋԱԶԳԱՅԻՆ ԿԵՆՏՐՈՆ} \par
+		\textit{ՄԱԳԻՍՏՐՈՍԱԿԱՆ ԹԵԶ} \par
+		\textit{Բաբկեն Վարդանյան Սամվելի} \par
+	}
+
+	\vspace{2.5cm}
+
+	\raggedright
+	{\Large
+		\begin{tabularx}{\textwidth}{ p{6.5cm} X }
+		Մասնագիտություն` & Ինֆորմատիկա և հաշվողական տեխնիկա \\
+		Թեմա՝ & \MYTITLE \\
+		Գիտական ղեկավար՝ & \MYDIRECTORTITLE \ \MYDIRECTOR \\
+		\end{tabularx}
+	}
+
+	\vspace{2cm}
+
+	{\Large Թույլատրել պաշտպանության '$\rule{1cm}{0.15mm}$' '$\rule{3cm}{0.15mm}$' 2016 թ. \par}
+
+	\vspace{2cm}
+	{\Large
+	}
+	{\Large
+		\begin{tabularx}{\textwidth}{ p{6.5cm} X }
+		Ամբիոնի վարիչ` & ֆիզ.-մաթ. գիտ. թեկնածու, դոցենտ Վլադիմիր Սահակյան \\
+		\end{tabularx}
+	}
+
+	\centering
+	\vfill
+	{\Large ԵՐԵՎԱՆ 2016\par}
+\end{titlepage}
 \newpage
 
+% Setup page numbering
+\pagenumbering{arabic}
+\setcounter{page}{2}
+
 % Rest of the document
-Կցանկանայի խորին երախտագիտությունս հայտնել իմ ղեկավար >>>ԿՈՉՈՒՄ<<<
-Մարիամ Հարությունյանին (ԻԱՊԻ), ով ինձ աջակցել և խրախուսել է այս աշխատանքի
+Կցանկանայի խորին երախտագիտությունս հայտնել իմ ղեկավար, \MYDIRECTORTITLE \
+\MYDIRECTOR ին (ԻԱՊԻ), ով ինձ աջակցել և խրախուսել է այս աշխատանքի
 ժամանակ։
 
 \hfill \hfill Բաբկեն Վարդանյան
