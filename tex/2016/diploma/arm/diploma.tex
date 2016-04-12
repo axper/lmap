@@ -23,6 +23,7 @@
 \usepackage[top=20mm, bottom=20mm, left=30mm, right=10mm]{geometry}
 \usepackage{setspace}
 \usepackage{tabularx}
+\usepackage{titlesec}
 
 % Fonts
 \newfontfamily{\armenianfont}{GHEA Grapalat}
@@ -97,6 +98,8 @@
 \renewcommand*\contentsname{Բովանդակություն}
 \renewcommand{\figurename}{Նկար}
 \renewcommand{\lstlistingname}{Սկզբնական կոդ}
+% Start new page after section
+\newcommand{\sectionbreak}{\clearpage}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -158,7 +161,7 @@
 \tableofcontents
 
 \begin{sloppypar}
-\section{Ներածություն}
+\section{Առաջաբան}
 \subsection{Տեխնիկական բառարան}
 
 \begin{tabular}{rl}
