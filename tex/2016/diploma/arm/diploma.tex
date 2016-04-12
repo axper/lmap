@@ -44,9 +44,16 @@
 % Language
 \setmainlanguage{armenian}
 
+% Setup colors
+\definecolor{bluekeywords}{rgb}{0,0,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.64,0.08,0.08}
+\definecolor{xmlcomments}{rgb}{0.5,0.5,0.5}
+\definecolor{types}{rgb}{0.17,0.57,0.68}
+
 % Setup lst
 \lstset{
-  language=python,
+  language={},
   showtabs=false,
   tabsize=4,
   breaklines=true,
@@ -76,9 +83,8 @@
 
 % Setup hyper
 \hypersetup{
-    colorlinks=true, %set true if you want colored links
+    colorlinks=false, %set true if you want colored links
     linktoc=all,     %set to all if you want both sections and subsections linked
-    linkcolor=blue,  %choose some color if you want links to stand out
 }
 
 % Setup linespread
@@ -86,13 +92,6 @@
 
 % Setup URL
 \urlstyle{tt}
-
-% Setup colors
-\definecolor{bluekeywords}{rgb}{0,0,1}
-\definecolor{greencomments}{rgb}{0,0.5,0}
-\definecolor{redstrings}{rgb}{0.64,0.08,0.08}
-\definecolor{xmlcomments}{rgb}{0.5,0.5,0.5}
-\definecolor{types}{rgb}{0.17,0.57,0.68}
 
 % Renames
 \renewcommand*\contentsname{Բովանդակություն}
@@ -804,6 +803,9 @@ FTP հաղորդակարգը ապահով չէ, քանի որ օգտագործո
 \section{Իրականացում}
 
 
+Ծրագրի սկզբնական կոդը (source code) հասանելի է \url{https://github.com/axper/lmap} կայքում:
+
+
 \subsection{Ծրագրավորման լեզվի ընտրություն}
 
 
@@ -1068,24 +1070,24 @@ TODO: http://lazy2hack.blogspot.am/2010/03/collection-of-security-checks-for-lin
 
 
 
-\lstinputlisting[language=python]{../../../../lmap/src/lmap.py}
-\lstinputlisting[language=python]{../../../../lmap/test/lmap_test.py}
+\lstinputlisting{../../../../lmap/src/lmap.py}
+\lstinputlisting{../../../../lmap/test/lmap_test.py}
 
-\lstinputlisting[language={}]{../../../../lmap/src/config.yml}
-\lstinputlisting[language=python]{../../../../lmap/src/scanner/scan_status.py}
-\lstinputlisting[language=python]{../../../../lmap/src/scanner/base_scanner.py}
+\lstinputlisting{../../../../lmap/src/config.yml}
+\lstinputlisting{../../../../lmap/src/scanner/scan_status.py}
+\lstinputlisting{../../../../lmap/src/scanner/base_scanner.py}
 
-\lstinputlisting[language=python]{../../../../lmap/src/scanner/openports.py}
-\lstinputlisting[language=python]{../../../../lmap/test/scanner/openports_test.py}
+\lstinputlisting{../../../../lmap/src/scanner/openports.py}
+\lstinputlisting{../../../../lmap/test/scanner/openports_test.py}
 
-\lstinputlisting[language=python]{../../../../lmap/src/scanner/update.py}
-\lstinputlisting[language=python]{../../../../lmap/test/scanner/update_test.py}
+\lstinputlisting{../../../../lmap/src/scanner/update.py}
+\lstinputlisting{../../../../lmap/test/scanner/update_test.py}
 
-\lstinputlisting[language=python]{../../../../lmap/src/scanner/worldwritable.py}
-\lstinputlisting[language=python]{../../../../lmap/test/scanner/worldwritable_test.py}
+\lstinputlisting{../../../../lmap/src/scanner/worldwritable.py}
+\lstinputlisting{../../../../lmap/test/scanner/worldwritable_test.py}
 
-\lstinputlisting[language=python]{../../../../lmap/src/scanner/root.py}
-\lstinputlisting[language=python]{../../../../lmap/test/scanner/root_test.py}
+\lstinputlisting{../../../../lmap/src/scanner/root.py}
+\lstinputlisting{../../../../lmap/test/scanner/root_test.py}
 \end{sloppypar}
 
 \newpage
