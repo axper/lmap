@@ -22,7 +22,8 @@ class Test(unittest.TestCase):
     @unittest.mock.patch('lmap.OpenPorts')
     @unittest.mock.patch('lmap.Update')
     @unittest.mock.patch('lmap.WorldWritable')
-    def test_main(self, mock_open_ports, mock_update, mock_world_writable):
+    @unittest.mock.patch('lmap.Umask')
+    def test_main(self, mock_open_ports, mock_update, mock_world_writable, mock_umask):
         # Prepare data and mocks
         config = MagicMock()
         lmap.get_config = MagicMock(return_value=config)

@@ -23,7 +23,7 @@ class Test(unittest.TestCase):
         result = test_subject.scan()
 
         # Assertions
-        self.assertEquals(result[0], ScanStatus.success)
+        self.assertEqual(result[0], ScanStatus.success)
         self.assertIsNotNone(result[1])
         mock_psutil.net_connections.assert_called_once_with(kind='inet')
         test_subject.is_port_is_open_and_externally_accessible.assert_has_calls(
@@ -115,7 +115,7 @@ class Test(unittest.TestCase):
         result = test_subject.get_line_for_connection(connection)
 
         # Assertions
-        self.assertEquals('udp 127.0.0.1:80 None', result)
+        self.assertEqual('udp 127.0.0.1:80 None', result)
 
     @unittest.mock.patch('openports.psutil')
     def test_get_line_for_connection_when_known_pid(self, mock_psutil):
@@ -135,7 +135,7 @@ class Test(unittest.TestCase):
         result = test_subject.get_line_for_connection(connection)
 
         # Assertions
-        self.assertEquals('udp 127.0.0.1:80 300 Babken ls -l -a', result)
+        self.assertEqual('udp 127.0.0.1:80 300 Babken ls -l -a', result)
         mock_psutil.Process.assert_called_once_with(connection.pid)
 
 
