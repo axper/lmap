@@ -2,10 +2,10 @@ import os
 
 import yaml
 
-from scanner.openports import OpenPorts
-from scanner.root import Root
-from scanner.update import Update
-from scanner.worldwritable import WorldWritable
+from openports import OpenPorts
+from root import Root
+from update import Update
+from worldwritable import WorldWritable
 
 
 def main():

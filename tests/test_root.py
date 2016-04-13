@@ -1,12 +1,12 @@
 import unittest
 from unittest.mock import patch, MagicMock
 
-from scanner.root import Root
-from scanner.scan_status import ScanStatus
+from root import Root
+from scan_status import ScanStatus
 
 
 class Test(unittest.TestCase):
-    @unittest.mock.patch('scanner.root.os')
+    @unittest.mock.patch('root.os')
     def test_scan_when_getuid_is_other(self, mock_os):
         # Prepare data and mocks
         mock_os.getuid = MagicMock(return_value=1000)
@@ -18,7 +18,7 @@ class Test(unittest.TestCase):
         mock_os.getuid.assert_called_once_with()
         self.assertEquals(result[0], ScanStatus.success)
 
-    @unittest.mock.patch('scanner.root.os')
+    @unittest.mock.patch('root.os')
     def test_scan_when_getuid_is_0_and_environ_sudo_uid_is_set(self, mock_os):
         # Prepare data and mocks
         mock_os.getuid = MagicMock(return_value=0)
@@ -32,7 +32,7 @@ class Test(unittest.TestCase):
         mock_os.environ.get.assert_called_once_with('SUDO_UID')
         self.assertEquals(result[0], ScanStatus.success)
 
-    @unittest.mock.patch('scanner.root.os')
+    @unittest.mock.patch('root.os')
     def test_scan_when_getuid_is_0_and_environ_sudo_uid_is_not_set(self, mock_os):
         # Prepare data and mocks
         mock_os.getuid = MagicMock(return_value=0)

@@ -1,11 +1,11 @@
 import os
 import unittest
 from datetime import datetime, timedelta
-
-from scanner.update import Update
-from unittest.mock import patch, mock_open, MagicMock
-from scanner.scan_status import ScanStatus
 from tempfile import NamedTemporaryFile
+from unittest.mock import patch, mock_open, MagicMock
+
+from scan_status import ScanStatus
+from update import Update
 
 
 def raise_file_not_found_error():

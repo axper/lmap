@@ -2,8 +2,8 @@ import unittest
 from socket import SOCK_DGRAM, SOCK_STREAM
 from unittest.mock import MagicMock, call
 
-from scanner.openports import OpenPorts
-from scanner.scan_status import ScanStatus
+from openports import OpenPorts
+from scan_status import ScanStatus
 
 
 def raise_file_not_found_error(x):
@@ -11,7 +11,7 @@ def raise_file_not_found_error(x):
 
 
 class Test(unittest.TestCase):
-    @unittest.mock.patch('scanner.openports.psutil')
+    @unittest.mock.patch('openports.psutil')
     def test_scan(self, mock_psutil):
         # Prepare data and mocks
         test_subject = OpenPorts(None)
@@ -117,7 +117,7 @@ class Test(unittest.TestCase):
         # Assertions
         self.assertEquals('udp 127.0.0.1:80 None', result)
 
-    @unittest.mock.patch('scanner.openports.psutil')
+    @unittest.mock.patch('openports.psutil')
     def test_get_line_for_connection_when_known_pid(self, mock_psutil):
         # Prepare data and mocks
         test_subject = OpenPorts(None)

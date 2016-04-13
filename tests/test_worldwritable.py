@@ -2,11 +2,10 @@ import os
 import unittest
 from unittest.mock import patch, MagicMock, call
 
-from scanner.scan_status import ScanStatus
-from scanner.worldwritable import WorldWritable
+from scan_status import ScanStatus
+from worldwritable import WorldWritable
 
 
-# noinspection PyUnusedLocal
 def raise_file_not_found_error(x):
     raise FileNotFoundError
 
@@ -73,7 +72,7 @@ class Test(unittest.TestCase):
         # Assertions
         self.assertEqual(result, 'Failure: Check name:\n\tfile1\n\tfile2')
 
-    @unittest.mock.patch('scanner.worldwritable.os')
+    @unittest.mock.patch('worldwritable.os')
     def test_scan_worldwritable_directories_with_no_sticky_bit_set(self, mock_os):
         # Prepare data and mocks
         test_subject = WorldWritable(None)
@@ -105,7 +104,7 @@ class Test(unittest.TestCase):
             ]
         )
 
-    @unittest.mock.patch('scanner.worldwritable.os')
+    @unittest.mock.patch('worldwritable.os')
     def test_scan_worldwritable_files_starting_with_dot(self, mock_os):
         # Prepare data and mocks
         test_subject = WorldWritable(None)
@@ -137,7 +136,7 @@ class Test(unittest.TestCase):
             ]
         )
 
-    @unittest.mock.patch('scanner.worldwritable.os')
+    @unittest.mock.patch('worldwritable.os')
     def test_scan_worldwritable_files_owned_by_root(self, mock_os):
         # Prepare data and mocks
         test_subject = WorldWritable(None)
@@ -169,7 +168,7 @@ class Test(unittest.TestCase):
             ]
         )
 
-    @unittest.mock.patch('scanner.worldwritable.os')
+    @unittest.mock.patch('worldwritable.os')
     def test_is_world_writable_when_file_does_not_exist(self, mock_os):
         # Prepare data and mocks
         test_subject = WorldWritable(None)
@@ -183,7 +182,7 @@ class Test(unittest.TestCase):
         self.assertFalse(result)
         mock_os.stat.assert_called_once_with(path)
 
-    @unittest.mock.patch('scanner.worldwritable.os')
+    @unittest.mock.patch('worldwritable.os')
     def test_is_world_writable_when_is(self, mock_os):
         # Prepare data and mocks
         test_subject = WorldWritable(None)
@@ -197,7 +196,7 @@ class Test(unittest.TestCase):
         self.assertTrue(result)
         mock_os.stat.assert_called_once_with(path)
 
-    @unittest.mock.patch('scanner.worldwritable.os')
+    @unittest.mock.patch('worldwritable.os')
     def test_is_world_writable_when_is_not(self, mock_os):
         # Prepare data and mocks
         test_subject = WorldWritable(None)
@@ -211,7 +210,7 @@ class Test(unittest.TestCase):
         self.assertFalse(result)
         mock_os.stat.assert_called_once_with(path)
 
-    @unittest.mock.patch('scanner.worldwritable.os')
+    @unittest.mock.patch('worldwritable.os')
     def test_is_sticky_bit_set_when_is_not_set(self, mock_os):
         # Prepare data and mocks
         test_subject = WorldWritable(None)
@@ -225,7 +224,7 @@ class Test(unittest.TestCase):
         self.assertFalse(result)
         mock_os.stat.assert_called_once_with(path)
 
-    @unittest.mock.patch('scanner.worldwritable.os')
+    @unittest.mock.patch('worldwritable.os')
     def test_is_sticky_bit_set_when_is_set(self, mock_os):
         # Prepare data and mocks
         test_subject = WorldWritable(None)
@@ -239,7 +238,7 @@ class Test(unittest.TestCase):
         self.assertTrue(result)
         mock_os.stat.assert_called_once_with(path)
 
-    @unittest.mock.patch('scanner.worldwritable.os')
+    @unittest.mock.patch('worldwritable.os')
     def test_is_sticky_bit_set_when_file_does_not_exist(self, mock_os):
         # Prepare data and mocks
         test_subject = WorldWritable(None)
@@ -253,7 +252,7 @@ class Test(unittest.TestCase):
         self.assertFalse(result)
         mock_os.stat.assert_called_once_with(path)
 
-    @unittest.mock.patch('scanner.worldwritable.os')
+    @unittest.mock.patch('worldwritable.os')
     def test_is_owned_by_root_when_is_not(self, mock_os):
         # Prepare data and mocks
         test_subject = WorldWritable(None)
@@ -267,7 +266,7 @@ class Test(unittest.TestCase):
         self.assertFalse(result)
         mock_os.stat.assert_called_once_with(path)
 
-    @unittest.mock.patch('scanner.worldwritable.os')
+    @unittest.mock.patch('worldwritable.os')
     def test_is_owned_by_root_when_is(self, mock_os):
         # Prepare data and mocks
         test_subject = WorldWritable(None)
@@ -281,7 +280,7 @@ class Test(unittest.TestCase):
         self.assertTrue(result)
         mock_os.stat.assert_called_once_with(path)
 
-    @unittest.mock.patch('scanner.worldwritable.os')
+    @unittest.mock.patch('worldwritable.os')
     def test_is_owned_by_root_when_file_does_not_exist(self, mock_os):
         # Prepare data and mocks
         test_subject = WorldWritable(None)
