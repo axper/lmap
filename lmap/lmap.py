@@ -4,6 +4,7 @@ import yaml
 
 from openports import OpenPorts
 from root import Root
+from ssh import Ssh
 from umask import Umask
 from update import Update
 from worldwritable import WorldWritable
@@ -19,7 +20,8 @@ def main():
         OpenPorts(config),
         Root(config),
         Umask(config),
-        WorldWritable(config)
+        Ssh(config),
+        WorldWritable(config),
     ]
     for scanner in scanners:
         print('-' * 79)
