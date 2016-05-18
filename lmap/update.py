@@ -56,7 +56,7 @@ class Update(BaseScanner):
         elif datetime.today() - last_update_date < timedelta(days=config_update_interval_days):
             return ScanStatus.success, ''
         else:
-            return ScanStatus.fail, ''
+            return ScanStatus.fail, 'System last update date is too old - ' + str(last_update_date)
 
     def get_apt_last_update_date(self, update_success_stamp_file_location):
         # update_success_stamp_file_location: usually `/var/lib/apt/periodic/update-success-stamp`
