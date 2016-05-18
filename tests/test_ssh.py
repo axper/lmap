@@ -15,7 +15,7 @@ class Test(unittest.TestCase):
         result = test_subject.scan()
 
         # Assertions
-        test_subject.check_protocol.assert_called_once_with('/etc/ssh/ssh_config')
+        test_subject.check_protocol.assert_called_once_with('/etc/ssh/sshd_config')
         self.assertEqual(result[0], ScanStatus.success)
 
     def test_scan_when_failed(self):
@@ -27,7 +27,7 @@ class Test(unittest.TestCase):
         result = test_subject.scan()
 
         # Assertions
-        test_subject.check_protocol.assert_called_once_with('/etc/ssh/ssh_config')
+        test_subject.check_protocol.assert_called_once_with('/etc/ssh/sshd_config')
         self.assertEqual(result[0], ScanStatus.fail)
 
     def test_check_protocol_when_ok_no_protocol(self):
@@ -36,10 +36,10 @@ class Test(unittest.TestCase):
             test_subject = Ssh(None)
 
             # Run test scenario
-            result = test_subject.check_protocol('/etc/ssh/ssh_config')
+            result = test_subject.check_protocol('/etc/ssh/sshd_config')
 
             # Assertions
-            mock_file.assert_called_once_with('/etc/ssh/ssh_config')
+            mock_file.assert_called_once_with('/etc/ssh/sshd_config')
             self.assertTrue(result)
 
     def test_check_protocol_when_ok_protocol_commented(self):
@@ -49,10 +49,10 @@ class Test(unittest.TestCase):
             test_subject = Ssh(None)
 
             # Run test scenario
-            result = test_subject.check_protocol('/etc/ssh/ssh_config')
+            result = test_subject.check_protocol('/etc/ssh/sshd_config')
 
             # Assertions
-            mock_file.assert_called_once_with('/etc/ssh/ssh_config')
+            mock_file.assert_called_once_with('/etc/ssh/sshd_config')
             self.assertTrue(result)
 
     def test_check_protocol_when_ok(self):
@@ -62,10 +62,10 @@ class Test(unittest.TestCase):
             test_subject = Ssh(None)
 
             # Run test scenario
-            result = test_subject.check_protocol('/etc/ssh/ssh_config')
+            result = test_subject.check_protocol('/etc/ssh/sshd_config')
 
             # Assertions
-            mock_file.assert_called_once_with('/etc/ssh/ssh_config')
+            mock_file.assert_called_once_with('/etc/ssh/sshd_config')
             self.assertTrue(result)
 
     def test_check_protocol_when_fail(self):
@@ -75,10 +75,10 @@ class Test(unittest.TestCase):
             test_subject = Ssh(None)
 
             # Run test scenario
-            result = test_subject.check_protocol('/etc/ssh/ssh_config')
+            result = test_subject.check_protocol('/etc/ssh/sshd_config')
 
             # Assertions
-            mock_file.assert_called_once_with('/etc/ssh/ssh_config')
+            mock_file.assert_called_once_with('/etc/ssh/sshd_config')
             self.assertFalse(result)
 
     def test_check_protocol_when_fail_fallback(self):
@@ -88,10 +88,10 @@ class Test(unittest.TestCase):
             test_subject = Ssh(None)
 
             # Run test scenario
-            result = test_subject.check_protocol('/etc/ssh/ssh_config')
+            result = test_subject.check_protocol('/etc/ssh/sshd_config')
 
             # Assertions
-            mock_file.assert_called_once_with('/etc/ssh/ssh_config')
+            mock_file.assert_called_once_with('/etc/ssh/sshd_config')
             self.assertFalse(result)
 
 

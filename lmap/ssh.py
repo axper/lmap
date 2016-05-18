@@ -16,15 +16,15 @@ class Ssh(BaseScanner):
         Checks whether the system SSHd daemon configuration file is secure or not..
         :returns: a tuple of (ScanStatus, message).
         """
-        if self.check_protocol('/etc/ssh/ssh_config'):
+        if self.check_protocol('/etc/ssh/sshd_config'):
             return ScanStatus.success, ''
         else:
-            return ScanStatus.fail, 'The vulnerable SSHv1 is enabled in /etc/ssh/ssh_config'
+            return ScanStatus.fail, 'The vulnerable SSHv1 is enabled in /etc/ssh/sshd_config'
 
     def check_protocol(self, sshd_config_path):
         """
         Checks SSHd service's configuration file - whether the vulnerable v1 protocol is enabled.
-        :param sshd_config_path: the SSHd service's configuration file location, usually /etc/ssh/ssh_config.
+        :param sshd_config_path: the SSHd service's configuration file location, usually /etc/ssh/sshd_config.
         :returns: True if no protocol is selected or the default protocol 2 is selected.
         :returns: False if protocol 1 is selected or is selected as fallback.
         """

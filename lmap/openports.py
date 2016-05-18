@@ -19,7 +19,7 @@ class OpenPorts(BaseScanner):
         output = 'Type, IP, Port, PID, Username, Command line\n'
         for connection in psutil.net_connections(kind='inet'):
             if self.is_port_is_open_and_externally_accessible(connection):
-                output += self.get_line_for_connection(connection)
+                output += self.get_line_for_connection(connection) + '\n'
         return ScanStatus.success, output
 
     def get_line_for_connection(self, connection):

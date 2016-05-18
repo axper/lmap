@@ -35,7 +35,8 @@ def main():
         print('Running:', scanner.__class__.__name__)
         result = scanner.scan()
         print('Status:', result[0])
-        print('Message:\n' + result[1])
+        print('Message:', result[1])
+        print()
 
 
 def get_config():
