@@ -15,14 +15,20 @@ def main():
     Runs the program
     """
     config = get_config()
-    scanners = [
-        Update(config),
-        OpenPorts(config),
-        Root(config),
-        Umask(config),
-        Ssh(config),
-        WorldWritable(config),
-    ]
+    scanners = []
+    if config['enabled']['openports']:
+        scanners.append(OpenPorts(config))
+    if config['enabled']['root']:
+        scanners.append(Root(config))
+    if config['enabled']['ssh']:
+        scanners.append(Ssh(config))
+    if config['enabled']['umask']:
+        scanners.append(Umask(config))
+    if config['enabled']['update']:
+        scanners.append(Update(config))
+    if config['enabled']['worldwritable']:
+        scanners.append(WorldWritable(config))
+
     for scanner in scanners:
         print('-' * 79)
         print('Running:', scanner.__class__.__name__)

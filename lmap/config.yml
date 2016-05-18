@@ -1,2 +1,10 @@
 update:
   warn_last_update_interval_days: 5
+
+enabled:
+  openports: true
+  root: true
+  ssh: true
+  umask: true
+  update: true
+  worldwritable: false
